@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{45BEAB15-55D8-4F59-86B9-CBD9DCD80D34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tavisca.Services.Profiling</RootNamespace>
+    <AssemblyName>Tavisca.Services.Profiling</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Contracts\Debug.cs" />
+    <Compile Include="Contracts\SqlTiming.cs" />
+    <Compile Include="Contracts\SqlTimingParameter.cs" />
+    <Compile Include="DesktopApp\DesktopAppProfilerProvider.cs" />
+    <Compile Include="Inspectors\ProfilerRequestHeader.cs" />
+    <Compile Include="Inspectors\RestProfilerBehavior.cs" />
+    <Compile Include="Inspectors\RestServerInspector.cs" />
+    <Compile Include="Inspectors\SoapProfilerBehavior.cs" />
+    <Compile Include="Inspectors\SoapServerInspector.cs" />
+    <Compile Include="ProfilerDb.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfilerDb.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Profiler\MiniProfilerExtentions.cs" />
+    <Compile Include="Interface\IProfiler.cs" />
+    <Compile Include="Interface\IProfilerStorage.cs" />
+    <Compile Include="Contracts\Timing.cs" />
+    <Compile Include="Profiler\NullableProfilerStorage.cs" />
+    <Compile Include="Profiler\Profiler.cs" />
+    <Compile Include="Profiler\ProfilerContext.cs" />
+    <Compile Include="Profiler\ProfilerDbConnection.cs" />
+    <Compile Include="Profiler\RestRequestProfilerProvider.cs" />
+    <Compile Include="Profiler\SqlServerProfilerStorage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Threads\ThreadFactory.cs" />
+    <Compile Include="WcfService\IProfile.cs" />
+    <Compile Include="WcfService\ProfileService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MiniProfiler\StackExchange.Profiling.Wcf\StackExchange.Profiling.Wcf.csproj">
+      <Project>{C471B0E5-0AE4-48E0-A938-02AEDA030C5E}</Project>
+      <Name>StackExchange.Profiling.Wcf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MiniProfiler\StackExchange.Profiling\StackExchange.Profiling.csproj">
+      <Project>{386222BD-6B6E-480F-A342-8DE1AB516E2C}</Project>
+      <Name>StackExchange.Profiling</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ProfilerDb.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>ProfilerDb.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProfilerDb.dbml.layout">
+      <DependentUpon>ProfilerDb.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

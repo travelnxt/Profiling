@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="dProfilerLogs" Class="ProfilerDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=dProfilerLogs;Integrated Security=True" SettingsObjectName="Tavisca.Services.Profiling.Properties.Settings" SettingsPropertyName="dProfilerLogsConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.spInsertProfilerDebug" Method="InsertProfilerDebug">
+    <Parameter Name="ProfilerId" Parameter="profilerId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="Method" Parameter="method" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="RequestUrl" Parameter="requestUrl" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="MachineName" Parameter="machineName" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="NVarChar(256)" />
+    <Parameter Name="StartedUtc" Parameter="startedUtc" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="TransactionId" Parameter="transactionId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="Code" Parameter="code" Type="System.String" DbType="NVarChar(10)" />
+    <Parameter Name="ProfileLevel" Parameter="profileLevel" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.spInsertProfilerSqlParameter" Method="InsertProfilerSqlParameter">
+    <Parameter Name="SqlTimingId" Parameter="sqlTimingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(245)" />
+    <Parameter Name="Value" Parameter="value" Type="System.String" DbType="NVarChar(1024)" />
+    <Parameter Name="DbType" Parameter="dbType" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="Size" Parameter="size" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.spInsertProfilerSqlTiming" Method="InsertProfilerSqlTiming">
+    <Parameter Name="ExecuteType" Parameter="executeType" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="CommandString" Parameter="commandString" Type="System.String" DbType="NVarChar(1024)" />
+    <Parameter Name="StartMilliseconds" Parameter="startMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="DurationMilliseconds" Parameter="durationMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="FirstFetchDurationMilliseconds" Parameter="firstFetchDurationMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="TimingId" Parameter="timingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="TransactionId" Parameter="transactionId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="ProfiledOrder" Parameter="profiledOrder" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SqlTimingId" Parameter="sqlTimingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.spInsertProfilerTiming" Method="InsertProfilerTiming">
+    <Parameter Name="TimingId" Parameter="timingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="TransactionId" Parameter="transactionId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="IsRoot" Parameter="isRoot" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="KeyValues" Parameter="keyValues" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Duration" Parameter="duration" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="DurationWithOutChildren" Parameter="durationWithOutChildren" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="Start" Parameter="start" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="ParentTimingId" Parameter="parentTimingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="ProfiledOrder" Parameter="profiledOrder" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SqlTimingDuration" Parameter="sqlTimingDuration" Type="System.Decimal" DbType="Decimal(18,4)" />
+    <Parameter Name="ExecutedScalers" Parameter="executedScalers" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ExecutedNonQueries" Parameter="executedNonQueries" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ExecutedReaders" Parameter="executedReaders" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ManagedThreadId" Parameter="managedThreadId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.spGetTraceAndTimings" Method="GetTraceAndTimings">
+    <Parameter Name="TransactionId" Parameter="transactionId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <ElementType Name="spGetTraceAndTimingsResult">
+      <Column Name="ProfilerId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="DebugName" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Method" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RequestUrl" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="MachineName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="StartedUtc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TransactionId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Code" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="ProfileLevel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TimingId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsRoot" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="TimingName" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="KeyValues" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Duration" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="DurationWithOutChildren" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="Start" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ParentTimingId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ProfiledOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SqlTimingDuration" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ExecutedNonQueries" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExecutedScalers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExecutedReaders" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ManagedThreadId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.spGetSqlTimings" Method="GetSqlTimings">
+    <Parameter Name="TimingId" Parameter="timingId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="TransactionId" Parameter="transactionId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <ElementType Name="spGetSqlTimingsResult">
+      <Column Name="TimingId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="SqlTimingId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ExecuteType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CommandString" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="StartMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="DurationMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="FirstFetchDurationMilliseconds" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ProfiledOrder" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="Size" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DbType" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
