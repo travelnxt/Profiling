@@ -43,6 +43,9 @@ namespace Tavisca.Services.Profiling.Contract
         public int Order { get; set; }
 
         [DataMember]
+        public ProfileLevel Level { get; set; }
+
+        [DataMember]
         public List<Timing> Children { get; set; }
 
         [DataMember]

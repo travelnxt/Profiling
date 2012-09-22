@@ -13,6 +13,7 @@ namespace Tavisca.Services.Profiling
         void Start(ProfilerEnvironment profilerEnvironment = ProfilerEnvironment.Soap, string name = "Unknown");
         void Stop(bool save = true, bool async = true);
         IDisposable Step(string caption);
+        IDisposable Step(string caption, Contract.ProfileLevel level);
         void AddData(string key, string value);
         string GetData(string key);
         void AddMetaData(string key, string value);

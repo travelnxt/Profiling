@@ -257,7 +257,7 @@ namespace StackExchange.Profiling
 
         internal IDisposable StepImpl(string name, ProfileLevel level = ProfileLevel.Info)
         {
-            if (level > this.Level) return null;
+            //if (level > this.Level) return null;
             return new Timing(this, Head, name);
         }
 

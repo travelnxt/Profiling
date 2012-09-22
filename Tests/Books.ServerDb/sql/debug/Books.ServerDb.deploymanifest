@@ -2,22 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetConnectionString>Data Source=.;Integrated Security=True;Pooling=False</TargetConnectionString>
-    <TargetDatabase>dProfilerLogs</TargetDatabase>
+    <TargetDatabase>testprofilierdb</TargetDatabase>
     <DeployToDatabase>True</DeployToDatabase>
     <DeployToScript>True</DeployToScript>
-    <SourceModel>Tavisca.Services.Profiling.Database.dbschema</SourceModel>
-    <DeployScriptFileName>Tavisca.Services.Profiling.Database.sql</DeployScriptFileName>
-    <DeploymentConfigurationFile>dProfilerLogs_Database.sqldeployment</DeploymentConfigurationFile>
+    <SourceModel>Books.ServerDb.dbschema</SourceModel>
+    <DeployScriptFileName>Books.ServerDb.sql</DeployScriptFileName>
+    <DeploymentConfigurationFile>testprofilierdb_Database.sqldeployment</DeploymentConfigurationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SqlCommandVariablesFile>dProfilerLogs_Database.sqlcmdvars</SqlCommandVariablesFile>
+    <SqlCommandVariablesFile>testprofilierdb_Database.sqlcmdvars</SqlCommandVariablesFile>
   </PropertyGroup>
   <ItemGroup>
-    <DeploymentExtensionConfiguration Include="dProfilerLogs_Script.PostDeployment.sql">
+    <DeploymentExtensionConfiguration Include="testprofilierdb_Script.PostDeployment.sql">
       <__PostdeploymentMetadata>
       </__PostdeploymentMetadata>
     </DeploymentExtensionConfiguration>
-    <DeploymentExtensionConfiguration Include="dProfilerLogs_Script.PreDeployment.sql">
+    <DeploymentExtensionConfiguration Include="testprofilierdb_Script.PreDeployment.sql">
       <__PredeploymentMetadata>
       </__PredeploymentMetadata>
     </DeploymentExtensionConfiguration>

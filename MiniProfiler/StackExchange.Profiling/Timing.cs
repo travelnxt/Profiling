@@ -57,6 +57,13 @@ namespace StackExchange.Profiling
         public List<SqlTiming> SqlTimings { get; set; }
 
         /// <summary>
+        /// Allows filtering of <see cref="Timing"/> steps based on what <see cref="ProfileLevel"/> 
+        /// the steps are created with.
+        /// </summary>
+        [DataMember(Order = 8)]
+        public ProfileLevel Level { get; set; }
+        
+        /// <summary>
         /// Needed for database deserialization and JSON serialization.
         /// </summary>
         public Guid? ParentTimingId { get; set; }

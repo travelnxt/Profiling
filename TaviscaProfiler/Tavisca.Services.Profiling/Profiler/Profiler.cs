@@ -5,6 +5,7 @@ using System.Text;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Wcf;
 using System.Threading;
+using Tavisca.Services.Profiling.Contract;
 
 
 namespace Tavisca.Services.Profiling
@@ -32,16 +33,24 @@ namespace Tavisca.Services.Profiling
         void IProfiler.Start(ProfilerEnvironment profilerEnvironment, string name)
         {
             SetUpProfileProvider(profilerEnvironment, name);
-            MiniProfiler.Start(level: ProfileLevel.Info);
+            MiniProfiler.Start();
             Instance.AddMetaData("managedthreadid", Thread.CurrentThread.ManagedThreadId.ToString());
         }
 
-        IDisposable IProfiler.Step(string caption)
+        public IDisposable Step(string caption)
+        {
+            return Step(caption, Contract.ProfileLevel.Verbose);
+        }
+
+        public IDisposable Step(string caption, Contract.ProfileLevel level)
         {
             var profiler = MiniProfiler.Current;
             if ((profiler == null) == false)
             {
-                var step = profiler.Step(caption);
+                var step = profiler.Step(caption, 
+                                        level == Contract.ProfileLevel.Info ? 
+                                                            StackExchange.Profiling.ProfileLevel.Info 
+                                                            : StackExchange.Profiling.ProfileLevel.Verbose);
                 Instance.AddData("managedthreadid", Thread.CurrentThread.ManagedThreadId.ToString());
                 return step;
             }
@@ -159,8 +168,8 @@ namespace Tavisca.Services.Profiling
         }
     }
 
-    public class StepTiming : Timing
+    public class StepTiming : StackExchange.Profiling.Timing
     {
-        public StepTiming(Timing timing) : base(MiniProfiler.Current, timing.ParentTiming, timing.Name) { }
+        public StepTiming(StackExchange.Profiling.Timing timing) : base(MiniProfiler.Current, timing.ParentTiming, timing.Name) { }
     }
 }

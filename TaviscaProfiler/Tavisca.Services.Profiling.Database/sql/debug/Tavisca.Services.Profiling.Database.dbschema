@@ -14,7 +14,7 @@
 			<Metadata Name="CompatibilityMode" Value="90" />
 		</CustomData>
 		<CustomData Category="Permissions" Type="XmlPermissions">
-			<Metadata Name="FileName" Value="F:\TAVISCA\WORKSPACE\PROFILING\TAVISCA.SERVICES.PROFILING.DATABASE\PROPERTIES\DATABASE.SQLPERMISSIONS" />
+			<Metadata Name="FileName" Value="D:\PROJECTS\SAPLING\PROFILING\TAVISCAPROFILER\TAVISCA.SERVICES.PROFILING.DATABASE\PROPERTIES\DATABASE.SQLPERMISSIONS" />
 		</CustomData>
 	</Header>
 	<Model>
@@ -887,6 +887,288 @@
 				</Entry>
 			</Relationship>
 			<AttachedAnnotation Disambiguator="5" />
+		</Element>
+		<Element Type="ISql90Procedure" Name="[dbo].[spGetSqlTimings]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[ 
+select 
+	TimingId, 
+	TransactionId,
+	PST.SqlTimingId ,
+	ExecuteType, 
+	CommandString, 
+	StartMilliseconds, 
+	DurationMilliseconds,  
+	FirstFetchDurationMilliseconds, 
+	ProfiledOrder,
+	PSP.Name, 
+	PSP.Value, 
+	PSP.Size,
+	PSP.DbType
+from [dbo].[ProfilerSqlTiming] PST
+left outer join [dbo].[ProfilerSqlParameter] PSP on PST.SqlTimingId = PSP.SqlTimingId
+where PST.TransactionId = @TransactionId and PST.TimingId = @TimingId 
+order by PST.StartMilliseconds]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[SqlTimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter].[SqlTimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[TimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[TransactionId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[ExecuteType]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[CommandString]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[StartMilliseconds]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[DurationMilliseconds]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[FirstFetchDurationMilliseconds]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[ProfiledOrder]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter].[Name]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter].[Value]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter].[Size]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlParameter].[DbType]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[TransactionId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spGetSqlTimings].[@TransactionId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[TimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spGetSqlTimings].[@TimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerSqlTiming].[StartMilliseconds]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Owner">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="ISqlSubroutineParameter" Name="[dbo].[spGetSqlTimings].[@TimingId]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="ISql90TypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="ISqlSubroutineParameter" Name="[dbo].[spGetSqlTimings].[@TransactionId]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="ISql90TypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="581" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spGetSqlTimings]&#xD;&#xA;&#x9;@TimingId uniqueidentifier,&#xD;&#xA;&#x9;@TransactionId uniqueidentifier&#xD;&#xA;as" />
+			</Annotation>
+		</Element>
+		<Element Type="ISql90Procedure" Name="[dbo].[spGetTraceAndTimings]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+select 
+	ProfilerId, 
+	PD.Name as DebugName, 
+	Method, 
+	RequestUrl, 
+	MachineName, 
+	UserName, 
+	StartedUtc, 
+	PD.TransactionId, 
+	Code, 
+	ProfileLevel ,
+	TimingId,  
+	IsRoot, 
+	PT.Name as TimingName, 
+	KeyValues, 
+	Duration, 
+	DurationWithOutChildren, 
+	Start, 
+	ParentTimingId, 
+	ProfiledOrder, 
+	SqlTimingDuration, 
+	ExecutedNonQueries, 
+	ExecutedScalers, 
+	ExecutedReaders, 
+	ManagedThreadId 
+from ProfilerDebug PD
+left outer join ProfilerTiming PT
+on PD.TransactionId = PT.TransactionId
+where PD.TransactionId = @TransactionId 
+order by Start, ManagedThreadId]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[TransactionId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[TransactionId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[ProfilerId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[Name]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[Method]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[RequestUrl]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[MachineName]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[UserName]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[StartedUtc]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[Code]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerDebug].[ProfileLevel]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[TimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[IsRoot]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[Name]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[KeyValues]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[Duration]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[DurationWithOutChildren]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[Start]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ParentTimingId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ProfiledOrder]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[SqlTimingDuration]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ExecutedNonQueries]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ExecutedScalers]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ExecutedReaders]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProfilerTiming].[ManagedThreadId]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spGetTraceAndTimings].[@TransactionId]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Owner">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="ISqlSubroutineParameter" Name="[dbo].[spGetTraceAndTimings].[@TransactionId]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="ISql90TypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="679" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[spGetTraceAndTimings]&#xD;&#xA;&#x9;@TransactionId uniqueidentifier&#xD;&#xA;as" />
+			</Annotation>
 		</Element>
 		<Element Type="ISql90Procedure" Name="[dbo].[spInsertProfilerDebug]">
 			<Property Name="BodyScript">

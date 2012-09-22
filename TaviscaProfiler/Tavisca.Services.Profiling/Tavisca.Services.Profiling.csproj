@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Contracts\Debug.cs" />
+    <Compile Include="Contracts\Level.cs" />
     <Compile Include="Contracts\SqlTiming.cs" />
     <Compile Include="Contracts\SqlTimingParameter.cs" />
     <Compile Include="DesktopApp\DesktopAppProfilerProvider.cs" />
