@@ -14,6 +14,9 @@ namespace Tavisca.Services.Profiling
     {
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
+            bool shouldProfile = ShouldProfile(request);
+            if (shouldProfile == false)
+                return shouldProfile;
             var profiler = Profiler.Instance;
             profiler.Start(ProfilerEnvironment.Restfull);
 
@@ -42,13 +45,25 @@ namespace Tavisca.Services.Profiling
             }
             profiler.TransactionId = transactionId;
             profiler.Enabled = debugEnabledBool;
-            return null;
+            return shouldProfile;
+        }
+
+        private bool ShouldProfile(Message request)
+        {
+            HttpRequestMessageProperty httpRequest = request.Properties["httpRequest"] as HttpRequestMessageProperty;
+            if (httpRequest == null)
+                return true;
+            return string.Compare(httpRequest.Method, "OPTIONS", true) != 0;
         }
 
         public void BeforeSendReply(ref Message reply, object correlationState)
         {
+            bool shouldProfile = correlationState == null ? true : (bool)correlationState;
+            if (shouldProfile == false)
+                return;
             var profiler = Profiler.Instance;
-            bool fault = reply.IsFault;
+            
+            bool fault = reply == null ? false : reply.IsFault;
             if (fault)
                 profiler.AddMetaData("code", "fault");
             else
